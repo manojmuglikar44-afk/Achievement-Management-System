@@ -387,6 +387,15 @@ def teacher_new():
 
         print(f"Form data: {teacher_name}, {teacher_id}, {email}, {phone_number}, {teacher_gender}, {teacher_dept}")
 
+        # Check for Teacher Code
+        teacher_code = request.form.get("teacher_code")
+        # Get the secret code from environment variable or use default
+        required_code = os.environ.get("TEACHER_REGISTRATION_CODE", "admin123")
+        
+        if teacher_code != required_code:
+            print("Invalid Teacher Code provided")
+            return render_template("teacher_new_2.html", error="Invalid Teacher Code. Registration denied.")
+
                 # Connecting to the database
         connection = sqlite3.connect(DB_PATH)
         cursor = connection.cursor()
